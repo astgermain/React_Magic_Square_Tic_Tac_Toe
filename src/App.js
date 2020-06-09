@@ -44,6 +44,7 @@ class App extends Component {
           continue;
         }
         alert(`Player ${this.state.player} has won!`);
+        this.reset();
         break;
       } else {
         tempArr.push(ogArr[1]);
