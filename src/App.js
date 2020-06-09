@@ -137,7 +137,7 @@ class App extends Component {
         OArr: [...this.state.OArr, value]
       });
 
-      this.checkWin(this.state.OArr);
+      this.checkWin(this.state.OArr, value);
     }
   };
 
