@@ -31,16 +31,23 @@ class App extends Component {
     let tempArr = [];
     let ogArr = arr;
     ogArr.push(value);
-    while (ogArr.length > 2) {
-      if (ogArr[1] === null) {
-        ogArr = tempArr;
+    let t = 0;
+    while (ogArr.length >= 2) {
+      t = ogArr.length + tempArr.length;
+      if (t < 3) {
+        break;
       }
-      let valueToFind = 15 - (ogArr[0] + ogArr[1]);
 
-      if (ogArr.find(v => v === valueToFind)) {
+      let valueToFind = 15 - (ogArr[0] + ogArr[1]);
+      let t1Arr = ogArr.concat(tempArr);
+      if (t1Arr.find(v => v === valueToFind)) {
         if (valueToFind === ogArr[0] || valueToFind === ogArr[1]) {
           tempArr.push(ogArr[1]);
           ogArr.splice(1, 1);
+          t--;
+          if (ogArr[1] === null) {
+            ogArr = tempArr;
+          }
           continue;
         }
         alert(`Player ${this.state.player} has won!`);
@@ -49,12 +56,15 @@ class App extends Component {
       } else {
         tempArr.push(ogArr[1]);
         ogArr.splice(1, 1);
+        t--;
+        if (ogArr.length < 2) {
+          ogArr = tempArr;
+          tempArr = [];
+        }
       }
-      if (this.state.count === 8) {
-        alert("No Winner");
-        this.reset();
-        break;
-      }
+    }
+    if (this.state.count === 8) {
+      this.reset();
     }
   };
 
@@ -126,7 +136,6 @@ class App extends Component {
       default:
         return 0;
     }
-
     if (this.state.player === "X") {
       this.setState({
         XArr: [...this.state.XArr, value]
@@ -136,7 +145,6 @@ class App extends Component {
       this.setState({
         OArr: [...this.state.OArr, value]
       });
-
       this.checkWin(this.state.OArr, value);
     }
   };
@@ -173,17 +181,17 @@ class App extends Component {
           </button>
           <button
             type="submit"
-            value={3}
+            value={1}
             id="2"
-            onClick={() => this.updateBox(2, 3)}
+            onClick={() => this.updateBox(2, 1)}
           >
             {this.state.b2}
           </button>
           <button
             type="submit"
-            value={4}
+            value={6}
             id="3"
-            onClick={() => this.updateBox(3, 4)}
+            onClick={() => this.updateBox(3, 6)}
           >
             {this.state.b3}
           </button>
@@ -191,9 +199,9 @@ class App extends Component {
         <div>
           <button
             type="submit"
-            value={1}
+            value={3}
             id="4"
-            onClick={() => this.updateBox(4, 1)}
+            onClick={() => this.updateBox(4, 3)}
           >
             {this.state.b4}
           </button>
@@ -207,9 +215,9 @@ class App extends Component {
           </button>
           <button
             type="submit"
-            value={9}
+            value={7}
             id="6"
-            onClick={() => this.updateBox(6, 9)}
+            onClick={() => this.updateBox(6, 7)}
           >
             {this.state.b6}
           </button>
@@ -217,17 +225,17 @@ class App extends Component {
         <div>
           <button
             type="submit"
-            value={6}
+            value={4}
             id="7"
-            onClick={() => this.updateBox(7, 6)}
+            onClick={() => this.updateBox(7, 4)}
           >
             {this.state.b7}
           </button>
           <button
             type="submit"
-            value={7}
+            value={9}
             id="8"
-            onClick={() => this.updateBox(8, 7)}
+            onClick={() => this.updateBox(8, 9)}
           >
             {this.state.b8}
           </button>
